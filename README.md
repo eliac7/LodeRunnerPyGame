@@ -1,6 +1,6 @@
 # LodeRunnerPyGame
 
-My first Python Game, Lode Runner. It's a school project, so don't blame me much  :P.
+My first Python Game, Lode Runner. It's a school project with my classmate Christos Pantoleon, so don't blame us much :P.
 
 Start with the main.py.
 
