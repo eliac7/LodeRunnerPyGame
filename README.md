@@ -14,4 +14,4 @@ You are trying to get away from the monsters. When you break a block and the mon
 
 # Acknowledgments
 
-* I want to thanks Dimitris Koutrintzes and Christos Pantoleon for the help implementing the project. 
+* I want to thanks Dimitris Koutrintzes and Christos Pantoleon for giving a hand implementing the project. 
