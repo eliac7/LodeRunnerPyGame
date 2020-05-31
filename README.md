@@ -1,3 +1,7 @@
+![Lode Runner Icon](https://i.imgur.com/l2oNyhr.jpg)
+
+
+
 # LodeRunnerPyGame
 
 My first Python Game, Lode Runner. It's a school project with my classmate Christos Pantoleon, so don't blame us much :P.
