@@ -16,7 +16,7 @@ With "R" key you destroy the block you are on it, left and right keys you contro
 
 # Lode Runer Gameplay
 
-You are trying to get away from the monsters. When you break a block and the monster traps in, he gets "killed" and it respawns. You have 5 lives, each time you get hit by a monster you lose 1 life, if you get trapped on a opened block, you are getting killed instantly. Your goal is to gather as many coins as you can. 
+You are trying to get away from the enemies. When you break a block and the enemy traps in, he gets "killed" and it respawns. You have 5 lives, each time you get hit by an enemy you lose 1 life, if you get trapped on a opened block, you are getting killed instantly. Your goal is to gather as many coins as you can. 
 
 # Acknowledgments
 
