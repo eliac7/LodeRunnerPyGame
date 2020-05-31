@@ -1,4 +1,6 @@
-![Lode Runner Icon](https://i.imgur.com/l2oNyhr.jpg)
+<p align="center">
+  <img width="460" height="300" src="https://i.imgur.com/l2oNyhr.jpg">
+</p>
 
 
 
