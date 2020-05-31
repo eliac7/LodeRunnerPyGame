@@ -1,8 +1,16 @@
 import pygame
 import random
+import math
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+
+coin = [pygame.image.load('src/coin/coin1.png'),
+        pygame.image.load('src/coin/coin2.png'),
+        pygame.image.load('src/coin/coin3.png'),
+        pygame.image.load('src/coin/coin4.png'),
+        pygame.image.load('src/coin/coin5.png'),
+        pygame.image.load('src/coin/coin6.png')]
 
 
 class Block(pygame.sprite.Sprite):
@@ -10,6 +18,7 @@ class Block(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load(image)
+        self.rotate = 0
 
         # Fetch the rectangle object that has the dimensions of the image
         # image.
@@ -37,7 +46,13 @@ class Block(pygame.sprite.Sprite):
                     xend = i[2] + i[0]
             elif i[2] > xend:
                 xend = i[2] + i[0]
-        new_pos = random.randrange(xstart, xend - 30)
+        new_pos = random.randrange(xstart, xend - 50)
         self.rect.x = new_pos
         self.rect.y = matrix[0][3] - matrix[0][1]
         return prev_level
+
+    def update(self, screen):
+        if self.rotate >= 6:
+            self.rotate = 0
+        screen.blit(coin[int(self.rotate) // 1], (self.rect.x, self.rect.y))
+        self.rotate += 0.25

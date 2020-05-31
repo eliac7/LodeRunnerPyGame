@@ -83,7 +83,6 @@ class Player(pygame.sprite.Sprite):
             walkCount += 1
         elif self.change_x == 0:
             screen.blit(pygame.image.load('src/Game/standing.png'), (self.rect.x, self.rect.y))
-        pygame.display.update()
 
         # See if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
@@ -136,7 +135,7 @@ class Player(pygame.sprite.Sprite):
 
         # If it is ok to jump, set our speed upwards
         if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
-            self.change_y = -9
+            self.change_y = -10
 
     # Player-controlled movement:
     def go_left(self, screen):
@@ -176,7 +175,7 @@ class Player(pygame.sprite.Sprite):
                 if block[3] < self.rect.y + 63 < block[3] + 36:
                     current_block = block
         if len(current_block) != 0:
-            if self.looking:  # lright
+            if self.looking:  # right
                 try:
                     blocks.index(
                         [current_block[0], current_block[1], current_block[2] - 36, current_block[3], current_block[4]])

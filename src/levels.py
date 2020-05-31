@@ -32,8 +32,6 @@ class Level(object):
         """ Draw everything on this level. """
 
         # Draw the background
-        screen.fill(BLACK)
-        # screen=pygame.image.load('icon.jpg')
         # Draw all the sprite lists that we have
         self.platform_list.draw(screen)
 
@@ -42,13 +40,14 @@ class Level(object):
 class Level_01(Level):
     """ Definition for level 1. """
 
-    def __init__(self, player):
+    def __init__(self, player, image):
         """ Create level 1. """
+        self.image = image
 
         # Call the parent constructor
         Level.__init__(self, player)
 
-        # Array with width, height, x, and y of platform
+        # Array with width, height, x, y and ID of platform
         self.level = [[36, 36, 0, 570, 0],  # katwkatw
                       [36, 36, 36, 570, 0],  # katwkatw
                       [36, 36, 72, 570, 0],  # katwkatw
@@ -134,7 +133,7 @@ class Level_01(Level):
         # Go through the array above and add platforms
 
         for platform in self.level:
-            block = Platform(platform[0], platform[1])
+            block = Platform(platform[0], platform[1], self.image)
             block.rect.x = platform[2]
             block.rect.y = platform[3]
             block.player = self.player
@@ -153,7 +152,130 @@ class Level_01(Level):
         self.level = new_level
 
     def replace_block(self, block):
-        new_block = Platform(block[0], block[1])
+        new_block = Platform(block[0], block[1], self.image)
+        new_block.rect.x = block[2]
+        new_block.rect.y = block[3]
+        new_block.player = self.player
+        self.platform_list.add(new_block)
+        return new_block
+
+    def get_platform_list(self):
+        return self.platform_list
+
+
+class Level_02(Level):
+    """ Definition for level 2. """
+
+    def __init__(self, player, image):
+        """ Create level 2. """
+        self.image = image
+        # Call the parent constructor
+        Level.__init__(self, player)
+
+        # Array with width, height, x, y and ID of platform
+        self.level = [[36, 36, 0, 570, 0],  # katwkatw
+                      [36, 36, 36, 570, 0],  # katwkatw
+                      [36, 36, 72, 570, 0],  # katwkatw
+                      [36, 36, 108, 570, 0],  # katwkatw
+                      [36, 36, 144, 570, 0],  # katwkatw
+                      [36, 36, 180, 570, 0],  # katwkatw
+                      [36, 36, 216, 570, 0],  # katwkatw
+                      [36, 36, 252, 570, 0],  # katwkatw
+                      [36, 36, 288, 570, 0],  # katwkatw
+                      [36, 36, 324, 570, 0],  # katwkatw
+                      [36, 36, 360, 570, 0],  # katwkatw
+                      [36, 36, 396, 570, 0],  # katwkatw
+                      [36, 36, 432, 570, 0],  # katwkatw
+                      [36, 36, 468, 570, 0],  # katwkatw
+                      [36, 36, 504, 570, 0],  # katwkatw
+                      [36, 36, 540, 570, 0],  # katwkatw
+                      [36, 36, 576, 570, 0],  # katwkatw
+                      [36, 36, 612, 570, 0],  # katwkatw
+                      [36, 36, 648, 570, 0],  # katwkatw
+                      [36, 36, 684, 570, 0],  # katwkatw
+                      [36, 36, 720, 570, 0],  # katwkatw
+                      [36, 36, 756, 570, 0],  # katwkatw
+                      [36, 36, 792, 570, 0],  # katwkatw
+                      [36, 36, 828, 570, 0],  # katwkatw
+                      [36, 36, 864, 570, 0],  # katwkatw
+                      [36, 36, 900, 570, 0],  # katwkatw
+                      [36, 36, 936, 570, 0],  # katwkatw
+                      [36, 36, 972, 570, 0],  # katwkatw
+                      [36, 36, 0, 430, 1],
+                      [36, 36, 36, 430, 1],
+                      [36, 36, 72, 430, 1],
+                      [36, 36, 108, 430, 1],
+                      [36, 36, 144, 430, 1],
+                      [36, 36, 964, 430, 2],
+                      [36, 36, 928, 430, 2],
+                      [36, 36, 892, 430, 2],
+                      [36, 36, 856, 430, 2],
+                      [36, 36, 820, 430, 2],
+                      [36, 36, 230, 320, 3],
+                      [36, 36, 266, 320, 3],
+                      [36, 36, 302, 320, 3],
+                      [36, 36, 338, 320, 3],
+                      [36, 36, 374, 320, 3],
+                      [36, 36, 410, 320, 3],
+                      [36, 36, 446, 320, 3],
+                      [36, 36, 482, 320, 3],
+                      [36, 36, 518, 320, 3],
+                      [36, 36, 554, 320, 3],
+                      [36, 36, 590, 320, 3],
+                      [36, 36, 626, 320, 3],
+                      [36, 36, 662, 320, 3],
+                      [36, 36, 698, 320, 3],
+                      [36, 36, 734, 320, 3],
+                      [36, 36, 230, 170, 4],
+                      [36, 36, 266, 170, 4],
+                      [36, 36, 302, 170, 4],
+                      [36, 36, 338, 170, 4],
+                      [36, 36, 374, 170, 4],
+                      [36, 36, 410, 170, 4],
+                      [36, 36, 446, 170, 4],
+                      [36, 36, 482, 170, 4],
+                      [36, 36, 518, 170, 4],
+                      [36, 36, 554, 170, 4],
+                      [36, 36, 590, 170, 4],
+                      [36, 36, 626, 170, 4],
+                      [36, 36, 662, 170, 4],
+                      [36, 36, 698, 170, 4],
+                      [36, 36, 734, 170, 4],
+                      [36, 36, 0, 74, 5],
+                      [36, 36, 36, 74, 5],
+                      [36, 36, 72, 74, 5],
+                      [36, 36, 108, 74, 5],
+                      [36, 36, 144, 74, 5],
+                      [36, 36, 964, 74, 6],
+                      [36, 36, 928, 74, 6],
+                      [36, 36, 892, 74, 6],
+                      [36, 36, 856, 74, 6],
+                      [36, 36, 820, 74, 6],
+                      ]
+
+        # Go through the array above and add platforms
+
+        for platform in self.level:
+            block = Platform(platform[0], platform[1], self.image)
+            block.rect.x = platform[2]
+            block.rect.y = platform[3]
+            block.player = self.player
+            self.platform_list.add(block)
+
+    def get_levels(self):
+        return self.level
+
+    def remove_block(self, block):
+        for platforms in self.platform_list:
+            if platforms.get_x() == block[2] and platforms.get_y() == block[3]:
+                self.platform_list.remove(platforms)
+                break
+
+    def set_levels(self, new_level):
+        self.level = new_level
+
+    def replace_block(self, block):
+        new_block = Platform(block[0], block[1], self.image)
         new_block.rect.x = block[2]
         new_block.rect.y = block[3]
         new_block.player = self.player

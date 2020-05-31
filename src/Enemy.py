@@ -2,14 +2,10 @@ import pygame
 
 global walkRight
 global walkLeft
-global walkCount
 
-walkCount = 0
 # Screen dimensions
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
-size = [SCREEN_WIDTH, SCREEN_HEIGHT]
-screen = pygame.display.set_mode(size)
 
 walkRight = [pygame.image.load('src/Game/enemy/R1E.png'), pygame.image.load('src/Game/enemy/R2E.png'),
              pygame.image.load('src/Game/enemy/R3E.png'),
@@ -51,7 +47,7 @@ class Enemy(pygame.sprite.Sprite):
         y = matrix[0][3] - 15
         self.image = pygame.image.load('src/Game/enemy/L1E.png')
         self.rect = self.image.get_rect()
-        self.rect.x = xstart+50
+        self.rect.x = xstart + 50
         self.rect.y = y
         self.width = width
         self.height = height
@@ -62,31 +58,24 @@ class Enemy(pygame.sprite.Sprite):
         self.vel_y = 0
         self.isDropping = False
 
-
-    def draw(self, screen):
-        global walkCount
-#        if  self.isDropping == True :
-            # Gravity
+    def movement(self, screen):
+        # Gravity
         self.calc_grav()
         self.move()
-
-        if walkCount + 1 >= 33:  # Since we have 11 images for each animtion our upper bound is 33.
+        if self.walkCount + 1 >= 33:  # Since we have 11 images for each animation our upper bound is 33.
             # We will show each image for 3 frames. 3 x 11 = 33.
-            walkCount = 0
+            self.walkCount = 0
 
         if self.vel > 0:  # If we are moving to the right we will display our walkRight images
-            screen.blit(walkRight[walkCount // 3], (self.rect.x, self.rect.y))
-            walkCount += 1
-            pygame.display.update()
-
+            screen.blit(walkRight[self.walkCount // 3], (self.rect.x, self.rect.y))
+            self.walkCount += 1
         else:  # Otherwise we will display the walkLeft images
-            screen.blit(walkLeft[walkCount // 3], (self.rect.x, self.rect.y))
-            walkCount += 1
-            pygame.display.update()
+            screen.blit(walkLeft[self.walkCount // 3], (self.rect.x, self.rect.y))
+            self.walkCount += 1
         block_hit_list = pygame.sprite.spritecollide(self, self.platform_list, False)
         for block in block_hit_list:
             # If we are moving right,
-            # set our right side to the left side of the item we hit6
+            # set our right side to the left side of the item we hit
             if self.vel > 0:
                 self.rect.right = block.rect.left
             elif self.vel < 0:
@@ -129,7 +118,6 @@ class Enemy(pygame.sprite.Sprite):
     def get_Y(self):
         return self.rect.y
 
-
     def calc_grav(self):
         self.isDropping = True
         """ Calculate effect of gravity. """
@@ -145,9 +133,10 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.y = self.platform_height - self.rect.height
 
     def set_platform(self, platform_list):
-        self.platform_list= platform_list
+        self.platform_list = platform_list
 
-    def set_vel(self,vel):
+    def set_vel(self, vel):
         self.vel = vel
+
     def getID(self):
-        return [self.platform,self.width,self.height,self.platform_list,self.level]
+        return [self.platform, self.width, self.height, self.platform_list, self.level]
