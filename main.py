@@ -30,14 +30,17 @@ SCREEN_HEIGHT = 600
 def main():
     global play_intro_music
     """ Main Program """
+
+    # Initialize pygame first
+    pygame.mixer.pre_init(44100, -16, 1, 512)
+    pygame.init()
+    pygame.mixer.init()
+
+    # Now set timers after pygame is initialized
     pygame.time.set_timer(USEREVENT + 1, 1000)
     pygame.time.set_timer(USEREVENT + 2, 1000)
 
     # Sound
-
-    pygame.mixer.pre_init(44100, -16, 1, 512)
-    pygame.init()
-    pygame.mixer.init()
     bg_sound = pygame.mixer.Sound("src/sound/bg.wav")
     welcome_music = pygame.mixer.Sound("src/sound/welcome.wav")
     sound_coin = pygame.mixer.Sound("src/sound/coin.wav")
@@ -51,10 +54,9 @@ def main():
     pygame.display.set_caption("Lode Runner")
 
     # health
+    heart = pygame.image.load("src/heart.png")
 
-    heart = pygame.image.load('src/heart.png')
-
-    font = pygame.font.Font('src/Pixel.otf', 20)
+    font = pygame.font.Font("src/Pixel.otf", 20)
     # Loop until the user clicks the close button.
     done = False
 
@@ -70,12 +72,14 @@ def main():
     start_game = True
     bg = pygame.image.load("src/oof.jpg")
     welcome_bg = pygame.image.load("src/welcome_bg.jpg")
-    help = pygame.image.load('src/how_to.jpg')
+    help = pygame.image.load("src/how_to.jpg")
     # -------- Main Program Loop -----------
     while not done:
         if game_over:
             if start_game:
-                choice = start_game_screen(screen, clock, welcome_music, welcome_bg, help)
+                choice = start_game_screen(
+                    screen, clock, welcome_music, welcome_bg, help
+                )
                 start_game = False
 
                 game_over = False
@@ -95,7 +99,7 @@ def main():
                     player_list.add(player)
 
                     # Create all the levels
-                    level_list = [Level_01(player, 'src/brick_2.jpg')]
+                    level_list = [Level_01(player, "src/brick_2.jpg")]
 
                     # Set the current level
                     current_level_no = 0
@@ -109,45 +113,87 @@ def main():
                     # ladder
                     ladder_list = pygame.sprite.Group()
                     for i in range(10):
-                        ladder = Ladder(210, 410 - (20 * (i + 1)), 'src/ladder.png')  # 1
+                        ladder = Ladder(
+                            210, 410 - (20 * (i + 1)), "src/ladder.png"
+                        )  # 1
                         ladder_list.add(ladder)
                     for i in range(7):
-                        ladder = Ladder(610, 215 - (20 * (i + 1)), 'src/ladder.png')  # 2
+                        ladder = Ladder(
+                            610, 215 - (20 * (i + 1)), "src/ladder.png"
+                        )  # 2
                         ladder_list.add(ladder)
                     for i in range(11):
-                        ladder = Ladder(790, 570 - (20 * (i + 1)), 'src/ladder.png')  # 3
+                        ladder = Ladder(
+                            790, 570 - (20 * (i + 1)), "src/ladder.png"
+                        )  # 3
                         ladder_list.add(ladder)
                     for i in range(9):
-                        ladder = Ladder(2.5, 570 - (20 * (i + 1)), 'src/ladder.png')  # 4
+                        ladder = Ladder(
+                            2.5, 570 - (20 * (i + 1)), "src/ladder.png"
+                        )  # 4
                         ladder_list.add(ladder)
                     for i in range(8):
-                        ladder = Ladder(680, 360 - (20 * (i + 1)), 'src/ladder.png')  # 5
+                        ladder = Ladder(
+                            680, 360 - (20 * (i + 1)), "src/ladder.png"
+                        )  # 5
                         ladder_list.add(ladder)
 
                     # enemy
                     enemy_list = pygame.sprite.Group()
-                    enemy = Enemy(5, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        5,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
-                    enemy = Enemy(3, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        3,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
-                    enemy = Enemy(1, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        1,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
-                    enemy = Enemy(0, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        0,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
-                    enemy = Enemy(6, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        6,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
 
                     # coins
                     for i in range(1):
                         #  This represents a block
-                        block = Block('src/coin.png')
+                        block = Block("src/coin.png")
                     block_list = pygame.sprite.Group()
                     all_sprites_list = pygame.sprite.Group()
                     prev_level = random.randrange(0, 6)
                     prev_level = block.new_coin(current_level.get_levels(), prev_level)
                     while True:
                         if pygame.sprite.spritecollide(block, ladder_list, False):
-                            prev_level = block.new_coin(current_level.get_levels(), prev_level)
+                            prev_level = block.new_coin(
+                                current_level.get_levels(), prev_level
+                            )
                         else:
                             break
                     # Add the block to the list of objects
@@ -161,7 +207,7 @@ def main():
                     player_list.add(player)
 
                     # Create all the levels
-                    level_list = [Level_02(player, 'src/brick_purple.jpg')]
+                    level_list = [Level_02(player, "src/brick_purple.jpg")]
 
                     # Set the current level
                     current_level_no = 0
@@ -175,35 +221,71 @@ def main():
                     # ladder
                     ladder_list = pygame.sprite.Group()
                     for i in range(25):
-                        ladder = Ladder(180, 570 - (20 * (i + 1)), 'src/ladder.png')  # 1
+                        ladder = Ladder(
+                            180, 570 - (20 * (i + 1)), "src/ladder.png"
+                        )  # 1
                         ladder_list.add(ladder)
                     for i in range(25):
-                        ladder = Ladder(770, 570 - (20 * (i + 1)), 'src/ladder.png')  # 2
+                        ladder = Ladder(
+                            770, 570 - (20 * (i + 1)), "src/ladder.png"
+                        )  # 2
                         ladder_list.add(ladder)
 
                     # enemy
                     enemy_list = pygame.sprite.Group()
-                    enemy = Enemy(5, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        5,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
-                    enemy = Enemy(3, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        3,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
-                    enemy = Enemy(1, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        1,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
-                    enemy = Enemy(0, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        0,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
-                    enemy = Enemy(6, 64, 64, current_level.get_platform_list(), current_level.get_levels())
+                    enemy = Enemy(
+                        6,
+                        64,
+                        64,
+                        current_level.get_platform_list(),
+                        current_level.get_levels(),
+                    )
                     enemy_list.add(enemy)
                     # blocks
                     for i in range(1):
                         #  This represents a block
-                        block = Block('src/coin.png')
+                        block = Block("src/coin.png")
                     block_list = pygame.sprite.Group()
                     all_sprites_list = pygame.sprite.Group()
                     prev_level = random.randrange(0, 6)
                     prev_level = block.new_coin(current_level.get_levels(), prev_level)
                     while True:
                         if pygame.sprite.spritecollide(block, ladder_list, False):
-                            prev_level = block.new_coin(current_level.get_levels(), prev_level)
+                            prev_level = block.new_coin(
+                                current_level.get_levels(), prev_level
+                            )
                         else:
                             break
                     # Add the block to the list of objects
@@ -212,20 +294,24 @@ def main():
                 elif choice == -1:
                     done = True
                 elif choice == 3:
-                    return_button = Button('src/return_white.png', 930, 20, 10)
+                    return_button = Button("src/return_white.png", 930, 20, 10)
                     button_list = pygame.sprite.Group()
                     button_list.add(return_button)
                     x = pygame.mouse.get_pos()[0]
                     y = pygame.mouse.get_pos()[1]
                     cursor_list = pygame.sprite.Group()
-                    cursor = Cursor('src/cursor.png', x, y)
+                    cursor = Cursor("src/cursor.png", x, y)
                     cursor_list.add(cursor)
 
             else:
                 if choice == 1:
-                    choice = show_go_screen(screen, clock, bg_sound, 'src/oof.jpg', score, choice)
+                    choice = show_go_screen(
+                        screen, clock, bg_sound, "src/oof.jpg", score, choice
+                    )
                 elif choice == 2:
-                    choice = show_go_screen(screen, clock, bg_sound, 'src/oof_level02.jpg', score, choice)
+                    choice = show_go_screen(
+                        screen, clock, bg_sound, "src/oof_level02.jpg", score, choice
+                    )
                 start_game = True
         if choice != -1 and choice != 3:
             screen.fill(BLACK)
@@ -246,13 +332,17 @@ def main():
                         if block[1] >= 3:
                             replace_block = current_level.replace_block(block[0])
                             removed_blocks.remove(block)
-                            hit_list = pygame.sprite.spritecollide(replace_block, enemy_list, False)
+                            hit_list = pygame.sprite.spritecollide(
+                                replace_block, enemy_list, False
+                            )
                             for enemies in hit_list:
                                 enemies.set_vel(0)
                                 removed_enemy = enemies.getID()
                                 removed_enemies.append([removed_enemy, 0])
                                 enemy_list.remove(enemies)
-                            hit_list = pygame.sprite.spritecollide(replace_block, player_list, False)
+                            hit_list = pygame.sprite.spritecollide(
+                                replace_block, player_list, False
+                            )
                             for players in hit_list:
                                 health = 0
                                 player_list.remove(players)
@@ -266,7 +356,13 @@ def main():
                     for enemies in removed_enemies:
                         enemies[1] += 1
                         if enemies[1] >= 10:
-                            enemy = Enemy(enemies[0][0], enemies[0][1], enemies[0][2], enemies[0][3], enemies[0][4])
+                            enemy = Enemy(
+                                enemies[0][0],
+                                enemies[0][1],
+                                enemies[0][2],
+                                enemies[0][3],
+                                enemies[0][4],
+                            )
                             enemy_list.add(enemy)
                             removed_enemies.remove(enemies)
 
@@ -323,7 +419,9 @@ def main():
                 prev_level = block.new_coin(current_level.get_levels(), prev_level)
                 while True:
                     if pygame.sprite.spritecollide(block, ladder_list, False):
-                        prev_level = block.new_coin(current_level.get_levels(), prev_level)
+                        prev_level = block.new_coin(
+                            current_level.get_levels(), prev_level
+                        )
                     else:
                         break
             for players in player_list:
@@ -364,7 +462,10 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
-                if event.type == pygame.MOUSEBUTTONDOWN and pygame.sprite.spritecollide(cursor, button_list, False):
+                if (
+                    event.type == pygame.MOUSEBUTTONDOWN
+                    and pygame.sprite.spritecollide(cursor, button_list, False)
+                ):
                     buttons = pygame.sprite.spritecollide(cursor, button_list, False)
                     for button in buttons:
                         level = button.selected()
@@ -372,19 +473,19 @@ def main():
                             start_game = True
                             game_over = True
                             play_intro_music = False
-            image = pygame.image.load('src/how_to.jpg')
+            image = pygame.image.load("src/how_to.jpg")
             screen.blit(image, (0, 0))
             isOverOut = False
             for button in pygame.sprite.spritecollide(cursor, button_list, False):
                 isOverOut = True
                 level = button.selected()
                 if level == 10:
-                    button.isOver('src/return.png')
+                    button.isOver("src/return.png")
             if not isOverOut:
                 for button in button_list:
                     level = button.selected()
                     if level == 10:
-                        button.isOver('src/return_white.png')
+                        button.isOver("src/return_white.png")
             button_list.draw(screen)
             x = pygame.mouse.get_pos()[0]
             y = pygame.mouse.get_pos()[1]
@@ -405,16 +506,16 @@ def show_go_screen(screen, clock, bg_sound, bg, score, choice):
     screen.blit(bg, (0, 0))
     bg_sound.stop()
     fail = pygame.mixer.Sound("src/sound/fail.wav")
-    fail.set_volume(.2)
+    fail.set_volume(0.2)
     fail.play()
-    font = pygame.font.Font('src/Pixel.otf', 50)
-    font2 = pygame.font.Font('src/Pixel.otf', 30)
+    font = pygame.font.Font("src/Pixel.otf", 50)
+    font2 = pygame.font.Font("src/Pixel.otf", 30)
     if choice == 1:
         text = font.render(" YOU    LOST ", True, WHITE)
         screen.blit(text, [300, 260])
         text3 = font2.render("Score:  " + str(score), True, WHITE)
         screen.blit(text3, [370, 360])
-        font3 = pygame.font.Font('src/Pixel.otf', 15)
+        font3 = pygame.font.Font("src/Pixel.otf", 15)
         text4 = font3.render("Press any key to play again", True, WHITE)
         screen.blit(text4, [320, 460])
     else:
@@ -422,7 +523,7 @@ def show_go_screen(screen, clock, bg_sound, bg, score, choice):
         screen.blit(text, [340, 260])
         text3 = font2.render("Score:  " + str(score), True, WHITE)
         screen.blit(text3, [420, 370])
-        font3 = pygame.font.Font('src/Pixel.otf', 15)
+        font3 = pygame.font.Font("src/Pixel.otf", 15)
         text4 = font3.render("Press any key to play again", True, WHITE)
         screen.blit(text4, [370, 460])
     pygame.display.flip()
@@ -445,19 +546,19 @@ def start_game_screen(screen, clock, welcome_music, welcome_bg, help):
     global play_intro_music
     pygame.mouse.set_visible(False)
     button_list = pygame.sprite.Group()
-    button = Button('src/level01_gray.jpg', 280, 250, 1)
+    button = Button("src/level01_gray.jpg", 280, 250, 1)
     button_list.add(button)
-    button = Button('src/level02_gray.jpg', 550, 250, 2)
+    button = Button("src/level02_gray.jpg", 550, 250, 2)
     button_list.add(button)
-    button = Button('src/help.png', 930, 20, 3)
+    button = Button("src/help.png", 930, 20, 3)
     button_list.add(button)
 
     x = pygame.mouse.get_pos()[0]
     y = pygame.mouse.get_pos()[1]
     cursor_list = pygame.sprite.Group()
-    cursor = Cursor('src/cursor.png', x, y)
+    cursor = Cursor("src/cursor.png", x, y)
     cursor_list.add(cursor)
-    welcome_music.set_volume(.5)
+    welcome_music.set_volume(0.5)
     if play_intro_music:
         welcome_music.play()
     pygame.display.flip()
@@ -473,25 +574,27 @@ def start_game_screen(screen, clock, welcome_music, welcome_bg, help):
             isOverOut = True
             level = button.selected()
             if level == 1:
-                button.isOver('src/level01_color.jpg')
+                button.isOver("src/level01_color.jpg")
             elif level == 2:
-                button.isOver('src/level02_color.jpg')
+                button.isOver("src/level02_color.jpg")
             else:
-                button.isOver('src/help_over.png')
+                button.isOver("src/help_over.png")
         if not isOverOut:
             for button in button_list:
                 level = button.selected()
                 if level == 1:
-                    button.isOver('src/level01_gray.jpg')
+                    button.isOver("src/level01_gray.jpg")
                 elif level == 2:
-                    button.isOver('src/level02_gray.jpg')
+                    button.isOver("src/level02_gray.jpg")
                 else:
-                    button.isOver('src/help.png')
+                    button.isOver("src/help.png")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 choice = -1
                 waiting = False
-            if event.type == pygame.MOUSEBUTTONDOWN and pygame.sprite.spritecollide(cursor, button_list, False):
+            if event.type == pygame.MOUSEBUTTONDOWN and pygame.sprite.spritecollide(
+                cursor, button_list, False
+            ):
                 buttons = pygame.sprite.spritecollide(cursor, button_list, False)
                 for button in buttons:
                     choice = button.selected()
